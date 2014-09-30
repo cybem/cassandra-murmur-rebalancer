@@ -1,0 +1,13 @@
+#!/bin/bash
+
+readonly NODETOOL="nodetool"
+readonly PYTHON="python"
+
+readonly HOSTS=`$NODETOOL ring -r | grep Normal | awk '{print $1}' | sort -V | uniq | xargs echo`
+readonly HCOUNT=`echo $HOSTS | wc -w`
+NDX=0
+for host in $HOSTS; do
+	token=`$PYTHON -c "print str(((2**64 / $HCOUNT) * $NDX) - 2**63)"`
+	echo "$NODETOOL -h $host move $token"
+	INDEX=$((INDEX+1))
+done

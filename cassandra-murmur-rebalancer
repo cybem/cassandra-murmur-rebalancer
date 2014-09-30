@@ -9,5 +9,5 @@ NDX=0
 for host in $HOSTS; do
 	token=`$PYTHON -c "print str(((2**64 / $HCOUNT) * $NDX) - 2**63)"`
 	echo "$NODETOOL -h $host move $token"
-	INDEX=$((INDEX+1))
+	NDX=$((NDX+1))
 done
